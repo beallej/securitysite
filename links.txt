@@ -1,0 +1,3 @@
+http://www.biscom.com/blog/bashshellshock-vulnerability-technical-details/
+http://www.ehackingnews.com/2014/09/shellshock-bash-bug.html
+
