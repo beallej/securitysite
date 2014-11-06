@@ -5,28 +5,28 @@
   <meta charset="utf-8">
 
   <title>How it Works</title>
-  <meta name="description" content="Vulnerabilites">
-  <meta name="author" content="Chet Aldrich and Josie Bealle">
+  <meta name="description"content="Vulnerabilites">
+  <meta name="author"content="Chet Aldrich and Josie Bealle">
   <style>
-      .button {
+      .button{
         text-align: center;
       }
   </style>
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
-    
+  <link rel="stylesheet"href="../css/bootstrap.min.css">
+   
 </head>
 
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <button type="button"class="navbar-toggle"data-toggle="collapse"data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">ShellShock </a>
+          <a class="navbar-brand"href="../index.html">ShellShock </a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -42,17 +42,47 @@
         <p>Nuts and Bolts</p>
       </div>
     </div>
-
+       
     <div class="container">
-        <div class = "row">
+        <div class = "row"> 
         <h2>What is Bash, anyway?</h2>
-        <p>Stuffjfkdsjafkdjs</p>
-    </div>
+        <p>Bash (Bourne Again Shell) is a program that is often packaged with UNIX that allows UNIX based systems to execute command lines and scripts.</p>
+        <h2>How is the bug exploited?</h2>
+        <p>We'll begin with a magical incantation (courtesy of Fedora Magazine):</p>
+        <pre>env x='() { :;}; echo OOPS' bash -c :</pre>
+        <p>This likely doesn't make too much sense, but examining the components of the test will show what is actually happening when the exploit is used on a victim. 
+        So, what exactly is the env at the beginning of the command?</p>
+        <p>The env at the beginning simply runs a command given a certain variable set. Not bad, right?</p>
+        <p>However, you've probably heard that this bash bug has something to do with environment variables, so you're not convinced. You'd be right. However, in order to understand the command we need to look at function definitions in bash.</p>
+        <p>Since bash is a scripting language, we can define functions. For example:</p>
+        <pre>$ lizardsman() { echo "
+
+_____________________                              _____________________
+`-._                 \           |\__/|           /                 _.-'
+    \                 \          |    |          /                 /  
+     \                 `-_______/      \_______-'                 /    
+      |                                                          |    
+      |                                                          |    
+      |                                                          |    
+      /                                                          \    
+     /_____________                                  _____________\
+                   `----._                    _.----'                
+                          `--.            .--'                          
+                              `-.      .-'                              
+                                 \    /                           
+                                  \  /                                  
+                                   \/   
+
+"; }</pre>
+
+ </div>
 </div>
     <div class = "button">
         <p><a class="btn btn-primary btn-lg" href = "vulnerability.html" role="button">What could this compromise? &raquo;</a></p>
     </div>
 </body>
-</html>  
+</html>
+
+
 
 
