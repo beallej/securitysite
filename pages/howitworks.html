@@ -103,11 +103,11 @@
         <pre>$ export -f batsignal<br>$ bash -c batsignal</pre>
         <p>Now, in concept, this should be just fine. However, the way this is actually done in implementation is somewhat sketchy. Since Linux/Unix systems don't have a special way to create function definitions as environment variables, the new instance of bash just looks through the environment variables. If it parses something that fits its criteria for being a function, it evaluates it. </p>
         <p>Again, in theory even this is safe, since defining a function doesn't mean that we actually execute anything.</p>
-        <p>However, we're not safe here, because there was a bug in the code. The evaluation wouldn't just top when the function definition was finished. It keeps going.</p>
+        <p>However, we're not safe here, because there was a bug in the code. The evaluation wouldn't just stop when the function definition was finished. It keeps going.</p>
         <p>This bug is what causes bash to be vulnerable. This would be fine if everyone just followed the rules and used the export command to place the functions in environment variables. But why play by the rules? An attacker can just make an environment variable that looks like a function, and a new bash instance will just run the whole body of code, even after the function definition is completed. </p>
         <p>Let's take a look at the actual command that exploits the bug again:</p>
         <pre>env x='() { :;}; echo OOPS' bash -c :</pre>
-        <p>First, an environmental variable x is declared. Then, we set x to something that <em>looks</em> like a function. The : is a command in bash that is defined as doing nothing. Then the function definition ends, but there's more stuff there that isn't supposed to be. There's nothing stopping us from adding stuff there though.</p>
+        <p>First, an environmental variable x is declared. Then, we set x to something that <em>looks</em> like a function. The ":" is a command in bash that is defined as doing nothing. Then the function definition ends, but there's more stuff there that isn't supposed to be there. There's nothing stopping us from adding code where it isn't supposed to be.</p>
         <p>The environmental variable is then added to the environment, and doesn't run. <br><br> However, when the new shell starts up, it will inherit the fake function from the environment variables, and then run it, because it thinks it is a function definition. Then</p>
         <pre>OOPS</pre>
         <p>The attacker has just exploited the bug, and can use this syntax to run arbitrary commands on the system.</p>
