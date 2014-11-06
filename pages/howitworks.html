@@ -54,14 +54,14 @@
         So, what exactly is the env at the beginning of the command?</p>
         <p>The env at the beginning simply runs a command given a certain variable set. Not bad, right?</p>
         <p>However, you've probably heard that this bash bug has something to do with environment variables, so you're not convinced. You'd be right. However, in order to understand the command we need to look at function definitions in bash.</p>
-        <p>Since bash is a scripting language, we can define functions. For example, say we wanted to send out the bat signal:</p>
+        <p>Since bash is a scripting language, we can define functions. For example, say we wanted to find Batman:</p>
         <pre>$ batsignal() { echo '
 ::: :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::: :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ::: :::::::::::::::::::::::::::::::::::::::::::::./    \.::::::::::::::::::
 ::: ::::::::::::::::::::::::::::::::::::::::::./          \::::::::::::::::
 ::: :::::::::::::::::::::::::::::::::::::::-  /   /\_M_/\  \:::::::::::::::
-::: :::::::::::::::::::::::::::::::::::-         (       )  :::::::::::::::
+::: :::::::::::::::::::::::::::::::::::-         |       |  :::::::::::::::
 ::: ::::::::::::::::::::::::::::::::-         .   \/-V-\/  ,:::::::::::::::
 ::: ::::::::::::::::::::::::::::-              .          ,::::::::::::::::
 ::: :::::::::::::::::::::::::-                  `..    ..::::::::::::::::::
@@ -81,10 +81,21 @@
 ::: ##########:::##########################################################
 ::: #######################################################################
 ::: #######################################################################
-::: #################################################################### ##
+::: #######################################################################
 ::: #######################################################################
 '; }</pre>
-    <p></p>
+        <p>This function essentially just stores the command and then executes the contents when prompted with the batsignal command. Note, however, that this <b>STORES</b> the command, but doesn't execute it until called, like so:</p>
+        <pre>$ batsignal</pre>
+        <p>So this is pretty cool. Now let's just suppose for a moment that I want to execute this in a new instance of bash. The below is what I'm going to end up with:</p>
+        <pre>Chets-Air:Desktop chetaldrich$ bash -c batsignal
+             bash: batsignal: command not found</pre>
+        <p>Using <pre>bash -c</pre> is creating a new instance of bash in which to run the command. Unfortunately, I didn't signal for Batman. This is because the function definition was not inheritied by the new instance of bash. However, the new instance of bash <b>DOES</b> inherit the environment from the previous instance.</p>
+        <p>So let's suppose now that we wanted to export our function to the other instance of bash. This can be accomplished with the following commands:</p>
+        <pre>$ export -f batsignal
+             $ bash -c batsignal</pre>
+        <p>Now, in concept, this should be just fine. However, the way this is actually done in implementation is somewhat sketchy. Since Linux/Unix systems don't have a special way to create function definitions as environment variables, the new instance of bash just looks through the environment variables. If it parses something that fits its criteria for being a function, it evaluates it. </p>
+        <p>Again, in theory even this is safe, since defining a function doesn't mean that we actually execute anything.</p>
+        <p>However, we're not safe here, because there was a bug in the code. The evaluation wouldn't just top when the function definition was finished. It kept going.</p>
 
  </div>
 </div>
