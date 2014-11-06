@@ -4,5 +4,5 @@ $formattedOutput0 = str_replace("not vulnerable", "<font color=\"green\">not vul
 $formattedOutput = str_replace("VULERABLE", "<font color = \"red\"> VULNERABLE</font>", $formattedOutput0);
 $formattedOutput1 = str_replace("[92m", " ", $formattedOutput0);
 $formattedOutput2 = str_replace("[39m", " ", $formattedOutput1);
-echo "<pre>$formattedOutput2</pre><br><br>If you have any <font color = \"red\"> VULNERABLE</font>'s, your bash is vulnerable.";
+echo "<pre>$formattedOutput2</pre><br><br>It looks like Thacker is not vulnerable to Shellshock.";
 ?>
