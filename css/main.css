@@ -4,6 +4,11 @@
    Styling for Main Page (index.html)
    ========================================================================== */
 
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
 .jumbotron {
   background: url(../img/banner.png);
 }
@@ -21,3 +26,6 @@
 #cpright {
   text-align: center;
 }
+
+
+
