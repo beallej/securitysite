@@ -98,7 +98,7 @@
         <pre>$ batsignal</pre>
         <p>So this is pretty cool. Now let's just suppose for a moment that I want to execute this in a new instance of bash. The below is what I'm going to end up with:</p>
         <pre>Chets-Air:Desktop chetaldrich$ bash -c batsignal<br>bash: batsignal: command not found</pre>
-        <p>Using bash -c creates a new instance of bash in which to run the command. Unfortunately, I didn't signal for Batman. This is because the function definition was not inheritied by the new instance of bash. However, the new instance of bash <b>DOES</b> inherit the environment from the previous instance.</p>
+        <p>Using bash -c creates a new instance of bash in which to run the command. Unfortunately, I didn't signal for Batman. This is because the function definition was not inherited by the new instance of bash. However, the new instance of bash <b>DOES</b> inherit the environment from the previous instance.</p>
         <p>So let's suppose now that we wanted to export our function to the other instance of bash. This can be accomplished with the following commands:</p>
         <pre>$ export -f batsignal<br>$ bash -c batsignal</pre>
         <p>Now, in concept, this should be just fine. However, the way this is actually done in implementation is somewhat sketchy. Since Linux/Unix systems don't have a special way to create function definitions as environment variables, the new instance of bash just looks through the environment variables. If it parses something that fits its criteria for being a function, it evaluates it. </p>
@@ -108,9 +108,9 @@
         <p>Let's take a look at the actual command that exploits the bug again:</p>
         <pre>env x='() { :;}; echo OOPS' bash -c :</pre>
         <p>First, an environmental variable x is declared. Then, we set x to something that <em>looks</em> like a function. The : is a command in bash that is defined as doing nothing. Then the function definition ends, but there's more stuff there that isn't supposed to be. There's nothing stopping us from adding stuff there though.</p>
-        <p>The environmental variable is then added to the environment, and doesn't run. <br><br> However, when the new shell starts up, it will inherit the fake function from the environment variables, and then run it, because it thinks it is a function definiton. Then</p>
+        <p>The environmental variable is then added to the environment, and doesn't run. <br><br> However, when the new shell starts up, it will inherit the fake function from the environment variables, and then run it, because it thinks it is a function definition. Then</p>
         <pre>OOPS</pre>
-        <p>The atacker has just exploited the bug, and can use this syntax to run arbitrary commands on the system.</p>
+        <p>The attacker has just exploited the bug, and can use this syntax to run arbitrary commands on the system.</p>
 
  </div>
 </div>
